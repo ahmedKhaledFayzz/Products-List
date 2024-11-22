@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Dashboard - Manage Products</h1>
+
+        <!-- Form to Add or Update Products -->
+        <form id="productForm">
+            <input type="hidden" id="productIndex" value="-1">
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="productPrice">Price:</label>
+                <input type="number" id="productPrice" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="productImage">Product Image:</label>
+                <input type="file" id="productImage" class="form-control-file" accept="image/*" required>
+                <div class="mt-2">
+                    <img id="imagePreview" src="#" alt="Preview" style="display:none; max-width: 100%; max-height: 200px;">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="productDescription">Description:</label>
+                <textarea id="productDescription" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save Product</button>
+        </form>
+
+        <!-- Product List -->
+        <div class="mt-5">
+            <h2 class="text-center">Products</h2>
+            <div id="productList" class="row"></div>
+        </div>
+    </div>
+
+    <script>
+        // Load products from LocalStorage
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            products.forEach((product, index) => {
+                const productCard = `
+                    <div class="col-md-4 mb-3">
+                        <div class="card w-100 h-100">
+                            <img src="${product.image}" class="card-img-top w-25 " alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">${product.description}</p>
+                                <p class="card-text"><strong>Price:</strong> $${product.price}</p>
+                                <button class="btn btn-warning btn-sm" onclick="editProduct(${index})">Edit</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProduct(${index})">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard;
+            });
+        }
+
+        // Handle form submission to save or update products
+        document.getElementById('productForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const index = document.getElementById('productIndex').value;
+            const fileInput = document.getElementById('productImage');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const product = {
+                    name: document.getElementById('productName').value,
+                    price: document.getElementById('productPrice').value,
+                    image: e.target.result, // Save image as Base64
+                    description: document.getElementById('productDescription').value,
+                };
+
+                let products = JSON.parse(localStorage.getItem('products')) || [];
+
+                if (index === '-1') {
+                    products.push(product); // Add new product
+                } else {
+                    products[parseInt(index)] = product; // Update existing product
+                }
+
+                localStorage.setItem('products', JSON.stringify(products)); // Save to LocalStorage
+                alert('Product saved successfully!');
+                document.getElementById('productForm').reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                document.getElementById('productIndex').value = '-1'; // Reset form
+                loadProducts();
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select an image.');
+            }
+        });
+
+        // Edit product
+        function editProduct(index) {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const product = products[index];
+
+            document.getElementById('productIndex').value = index;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('imagePreview').src = product.image;
+            document.getElementById('imagePreview').style.display = 'block';
+        }
+
+        // Delete product
+        function deleteProduct(index) {
+            let products = JSON.parse(localStorage.getItem('products')) || [];
+            if (confirm('Are you sure you want to delete this product?')) {
+                products.splice(index, 1);
+                localStorage.setItem('products', JSON.stringify(products));
+                alert('Product deleted successfully!');
+                loadProducts();
+            }
+        }
+
+        // Load products on page load
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

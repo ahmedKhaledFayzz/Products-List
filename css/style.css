@@ -1,0 +1,170 @@
+/* تصميم عام للصفحة */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.padding-section {
+  padding-top: 50px;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+}
+
+/* Navbar Customization */
+.navbar-collapse {
+  transition: all 0.3s ease;
+}
+
+.navbar {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 1.5rem;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007bff !important;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+/* Active Link Styling */
+.navbar-nav .nav-link.active {
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 990px) {
+  .navbar-collapse {
+    overflow: hidden;
+    max-height: 0; /* Default state: collapsed */
+    transition: max-height 0.3s ease; /* Smooth transition */
+  }
+
+  .navbar-collapse.show {
+    max-height: 500px; /* Adjust based on your content's height */
+    transition: max-height 0.3s ease; /* Smooth expansion */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #f4faff; */
+    padding: 10px 0;
+    border-radius: 5px;
+  }
+}
+
+/* Fixed navbar spacing for content below */
+body {
+  padding-top: 70px;
+}
+
+/* FirstSection products-list */
+
+img {
+  width: 100%;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* تصميم حاوية البطاقات */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap; /* لجعل البطاقات تلتف في الصفوف عند الحاجة */
+  gap: 10px;
+  justify-content: center; /* توسيط البطاقات */
+  height: auto;
+}
+
+/* تصميم البطاقات */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px; /* عرض البطاقات */
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+/* تأثير عند مرور الماوس */
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* عنوان المنتج */
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* وصف المنتج */
+.card p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #666;
+}
+
+/* السعر */
+.card .price {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* صورة المنتج */
+.card img {
+  width: 100%;
+  height: auto;
+
+  margin-bottom: 5px;
+}
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+@media (min-width: 992px) {
+  .col-lg-8 {
+      flex: 0 0 auto;
+      /* width: 66.66666667%; */
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-10 {
+      flex: 0 0 auto;
+      /* width: 83.33333333%; */
+  }
+}
+@media (min-width: 576px) {
+  .col-sm-12 {
+      /* flex: 0 0 auto; */
+      width: 100%;
+  }
+}
